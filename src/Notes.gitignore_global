@@ -1,0 +1,190 @@
+Notes
+
+
+children props- basically used between component(one)
+
+access like children property provided by react
+
+
+const BookList = () => {
+    return (
+        <section className='booklist'>
+            <Book author={firstBook.author} title={firstBook.title} img={firstBook.img}>
+               <p>Hello, it's me
+                    I was wondering if after all these years you'd like to meet
+                    To go over everything
+                    They say that time's supposed to heal ya, but I ain't done much healing…</p>
+                <button>click me</button>
+            </Book>
+            <Book author={secondBook.author} title={secondBook.title} img={secondBook.img} />
+        </section>
+    )
+}
+
+const Book = (props) => {
+    console.log(props);
+    const { img, title, author,children} = props
+    return (
+        <article className='book'>
+            
+            <img src={img} alt={title} />
+            <h2>{title}</h2>
+            <h4>{author.toUpperCase()}</h4>
+            {children}
+    
+        </article>
+    )
+}
+
+-------------
+USING spread Operator wiht props
+--------------------->
+const BookList = () => {
+    return (
+        <section className='booklist'>
+            {book.map((e)=>{
+               return <Book {...e} key={e.id} />
+            })}  
+        </section>
+    )
+}
+
+const Book = (props) => {
+    console.log(props);
+    const { img, title, author} = props
+    return (
+        <article className='book'>
+            <img src={img} alt={title} />
+            <h2>{title}</h2>
+            <h4>{author.toUpperCase()}</h4>
+        </article>
+    )
+}
+
+
+Event Examples
+--------------
+const EventExamples = () => {
+    const handleForInput = (e) => {
+        console.log(e.target.value)
+        console.log(e.target.name)
+        console.log('handle form input');
+    }
+    const handleButtonClick = () => {
+        alert('handle Button click');
+    }
+    const handleFormSubmission = (e) => {
+        e.preventDefault();
+
+        console.log('handle form submission', e);
+    }
+
+    return (
+        <section>
+            <form onSubmit={handleFormSubmission}>
+                <h2>Typical Form</h2>
+                <input type='text' onChange={handleForInput} style={{ margin: 'rem 0' }} name='example' />
+                <button type="submit">Submit</button>
+                <div>
+                    <button onClick={handleButtonClick}>Click here</button>
+                </div>
+
+            </form>
+
+        </section>
+    );
+}
+
+
+// how to pass function to child component with parameter (two approches)
+------------------------------------------------------------------------
+
+const BookList = () => {
+    const getBook=(id)=>{
+        console.log(id)
+        const book1 = book.find((e)=>e.id==id);
+        console.log(book1)
+    }
+    return (
+        <section className='booklist'>
+           
+            {book.map((e) => {
+                return <Book {...e} key={e.id} getBook = {getBook} />
+            })}
+        </section>
+    )
+}
+
+
+
+const Book = (props) => {
+
+    console.log(props);
+    const { img, title, author,id,getBook} = props
+    const getSingleBook=()=>{
+        getBook(id)
+    }
+
+    return (
+        <article className='book'>
+
+            <img src={img} alt={title} />
+            <h2>{title}</h2>
+            <button onClick={getSingleBook}>Click me</button>
+            <h4>{author.toUpperCase()}</h4>
+
+        </article>
+    )
+}
+
+2nd approches---
+
+const BookList = () => {
+    const getBook=(id)=>{
+        console.log(id)
+        const book1 = book.find((e)=>e.id==id);
+        console.log(book1)
+    }
+    return (
+        <section className='booklist'>
+           
+            {book.map((e) => {
+                return <Book {...e} key={e.id} getBook = {getBook} />
+            })}
+        </section>
+    )
+}
+
+
+
+const Book = (props) => {
+
+    console.log(props);
+    const { img, title, author,id,getBook} = props
+   
+
+    return (
+        <article className='book'>
+
+            <img src={img} alt={title} />
+            <h2>{title}</h2>
+            <button onClick={()=>getBook(id}>Click me</button>
+            <h4>{author.toUpperCase()}</h4>
+
+        </article>
+    )
+}
+
+Import and Export Files
+-------------------------
+
+export const book = [{name:"book}]
+
+--> import {book} from './book';
+
+(OR)
+
+const book = [{name:"book}]
+export default book;
+
+-->import bananna from './book';  //here you can change the variable name
